@@ -1,6 +1,7 @@
 #pragma once
 
-#include "tek5030/realsense_stereo.h"
+#include "tek5030/stereo_pair.h"
+#include "tek5030/kitti_camera.h"
 #include "opencv2/core.hpp"
 #include "opencv2/core/affine.hpp"
 
@@ -17,7 +18,7 @@ public:
 
   /// \brief Load stereo calibration parameters from a RealSense camera.
   /// \param stereo_camera The camera.
-  explicit StereoCalibration(const tek5030::RealSense::StereoCamera& stereo_camera);
+  explicit StereoCalibration(const tek5030::KittiCamera& stereo_camera);
 
   /// \brief Rectify a stereo pair with the loaded calibration parameters.
   /// \param raw_stereo_pair The input images

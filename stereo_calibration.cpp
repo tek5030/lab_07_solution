@@ -1,5 +1,6 @@
 #include "stereo_calibration.h"
-#include "opencv2/opencv.hpp"
+#include "opencv2/calib3d.hpp"
+#include "opencv2/imgproc.hpp"
 
 StereoCalibration::StereoCalibration(const std::string& intrinsic_filename,
                                      const std::string& extrinsic_filename,
@@ -33,17 +34,19 @@ StereoCalibration::StereoCalibration(const std::string& intrinsic_filename,
   computeRectificationMapping();
 }
 
-StereoCalibration::StereoCalibration(const tek5030::RealSense::StereoCamera& stereo_camera)
+StereoCalibration::StereoCalibration(const tek5030::KittiCamera& stereo_camera)
 {
-  using stream = tek5030::RealSense::StereoCamera::CameraStream;
-  cv::Mat(stereo_camera.K(stream::LEFT)).convertTo(K_left_, CV_64F);
-  cv::Mat(stereo_camera.K(stream::RIGHT)).convertTo(K_right_, CV_64F);
-  cv::Mat(stereo_camera.distortion(stream::LEFT)).convertTo(distortion_left_, CV_64F);
-  cv::Mat(stereo_camera.distortion(stream::RIGHT)).convertTo(distortion_right_, CV_64F);
-  cv::Mat(stereo_camera.pose().rotation()).convertTo(R_, CV_64F);
-  cv::Mat(stereo_camera.pose().translation()).convertTo(t_, CV_64F);
+  const auto left = stereo_camera.getCalibration(stereo_camera.color() ? tek5030::KittiCamera::Cam::ColorLeft: tek5030::KittiCamera::Cam::GrayLeft);
+  const auto right = stereo_camera.getCalibration(stereo_camera.color() ? tek5030::KittiCamera::Cam::ColorRight: tek5030::KittiCamera::Cam::GrayRight);
 
-  img_size_ = stereo_camera.getResolution(stream::LEFT);
+  K_left_ = left.K.clone();
+  K_right_ = right.K.clone();;
+  distortion_left_ = left.d.clone();;
+  distortion_right_ = right.d.clone();;
+  R_ = right.rotation.clone();;
+  t_ = right.translation.t();;
+
+  img_size_ = left.size;
 
   computeRectificationMapping();
 }
