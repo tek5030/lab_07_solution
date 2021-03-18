@@ -99,7 +99,7 @@ void lab7()
       if (!dense_disparity.empty())
       {
         cv::Mat dense_depth = static_cast<float>(calibration.f() * calibration.baseline()) / dense_disparity;
-        constexpr float max_depth = 5.f;
+        constexpr float max_depth = 50.f;
         dense_depth.setTo(0, (dense_disparity < 0) | (dense_depth > max_depth));
 
         dense_depth /= max_depth;
