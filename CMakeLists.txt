@@ -34,6 +34,10 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
   tek5030::tek5030
   )
 
+if(TARGET tek5030::rs2)
+  target_link_libraries(${PROJECT_NAME} PRIVATE tek5030::rs2)
+endif()
+
 target_compile_options(${PROJECT_NAME} PRIVATE ${compiler_options})
 set_target_properties(${PROJECT_NAME} PROPERTIES
   CXX_STANDARD_REQUIRED ON

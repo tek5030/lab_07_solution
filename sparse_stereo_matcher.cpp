@@ -9,19 +9,15 @@ SparseStereoMatcher::SparseStereoMatcher(cv::Ptr<cv::Feature2D> detector,
 
 void SparseStereoMatcher::match(const tek5030::StereoPair& stereo_img)
 {
-  const int n_grid_cols = stereo_img.left.cols / 16;
-  const int n_grid_rows = stereo_img.left.rows / 16;
-  const int patch_width = 32;
-
   // Detect and describe features in the left image.
   keypoints_left_.clear();
-  keypoints_left_ = detectInGrid(stereo_img.left, detector_, {n_grid_cols, n_grid_rows}, 1, patch_width);
+  detector_->detect(stereo_img.left, keypoints_left_);
   cv::Mat query_descriptors;
   desc_extractor_->compute(stereo_img.left, keypoints_left_, query_descriptors);
 
   // Detect and describe features in the right image.
   keypoints_right_.clear();
-  keypoints_right_ = detectInGrid(stereo_img.right, detector_, {n_grid_cols, n_grid_rows}, 1, patch_width);
+  detector_->detect(stereo_img.right, keypoints_right_);
   cv::Mat train_descriptors;
   desc_extractor_->compute(stereo_img.right, keypoints_right_, train_descriptors);
 
@@ -40,7 +36,7 @@ void SparseStereoMatcher::extractGoodMatches(const std::vector<cv::DMatch>& matc
   for (const auto& match : matches)
   {
     bool epipolar_is_ok = std::abs(keypoints_right_[match.trainIdx].pt.y
-                                   - keypoints_left_[match.queryIdx].pt.y) < 1.0f;
+                                   - keypoints_left_[match.queryIdx].pt.y) < 1.5f;
 
     bool disparity_is_positive = keypoints_left_[match.queryIdx].pt.x > keypoints_right_[match.trainIdx].pt.x;
 

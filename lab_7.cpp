@@ -20,10 +20,10 @@ using namespace tek5030::RealSense;
 void lab7()
 {
   StereoCamera camera(StereoCamera::CaptureMode::RECTIFIED);
-  camera.setLaserMode(StereoCamera::LaserMode::ON);
+  camera.setLaserMode(StereoCamera::LaserMode::OFF);
 
   cv::Ptr<cv::Feature2D> detector = cv::FastFeatureDetector::create();
-  cv::Ptr<cv::Feature2D> desc_extractor = cv::BRISK::create(30, 0);
+  cv::Ptr<cv::Feature2D> desc_extractor = cv::ORB::create(2000, 1.2, 1);
 
   SparseStereoMatcher stereo_matcher{detector, desc_extractor};
 
