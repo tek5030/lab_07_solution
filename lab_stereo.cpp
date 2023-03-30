@@ -1,4 +1,4 @@
-#include "lab_7.h"
+#include "lab_stereo.h"
 #include "cv_stereo_matcher_wrap.h"
 #include "sparse_stereo_matcher.h"
 #include "stereo_calibration.h"
@@ -17,7 +17,7 @@
 using namespace tek5030;
 using namespace tek5030::RealSense;
 
-void lab7()
+void lab_stereo()
 {
   StereoCamera camera(StereoCamera::CaptureMode::RECTIFIED);
   camera.setLaserMode(StereoCamera::LaserMode::OFF);
@@ -115,5 +115,3 @@ void lab7()
     { break; }
   }
 }
-
-

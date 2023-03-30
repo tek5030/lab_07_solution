@@ -1,9 +1,9 @@
-#include "lab_7.h"
+#include "lab_stereo.h"
 #include <iostream>
 
 int main() try
 {
-  lab7();
+  lab_stereo();
 
   return EXIT_SUCCESS;
 }
