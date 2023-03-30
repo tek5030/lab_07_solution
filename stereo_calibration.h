@@ -1,5 +1,6 @@
 #pragma once
 
+#include "tek5030/stereo_pair.h"
 #include "tek5030/realsense_stereo.h"
 #include "opencv2/core.hpp"
 #include "opencv2/core/affine.hpp"
