@@ -1,4 +1,4 @@
-#include "lab_7.h"
+#include "lab_stereo.h"
 #include "cv_stereo_matcher_wrap.h"
 #include "sparse_stereo_matcher.h"
 #include "stereo_calibration.h"
@@ -16,7 +16,7 @@
 
 using namespace tek5030;
 
-void lab7()
+void lab_stereo()
 {
   const std::string dataset_path{"replace with path to the directory containing datasets"};
   const std::string calib_path{"replace with path to the directory containing calibration data"};
